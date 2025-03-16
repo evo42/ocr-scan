@@ -1,11 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">@color/colorActivityWhiteBackground</color>
-    <color name="colorPrimaryDark">@color/colorGrayDivider</color>
-    <color name="colorAccent">#212121</color>
-    <color name="colorActivityWhiteBackground">@android:color/white</color>
-    <color name="matt_black">#212121</color>
-    <color name="colorDisabledGray">#F5F5FD</color>
-    <color name="colorGrayDivider">#D4D8EB</color>
-    <color name="cardBackground">@android:color/white</color>
+    <!-- Primary Brand Colors -->
+    <color name="bankpay_primary">#2563EB</color>
+    <color name="bankpay_secondary">#1E40AF</color>
+    <color name="bankpay_accent">#3B82F6</color>
+    
+    <!-- UI Colors -->
+    <color name="colorPrimary">@color/bankpay_primary</color>
+    <color name="colorPrimaryDark">@color/bankpay_secondary</color>
+    <color name="colorAccent">@color/bankpay_accent</color>
+    
+    <!-- Background Colors -->
+    <color name="colorActivityWhiteBackground">#FFFFFF</color>
+    <color name="cardBackground">#FFFFFF</color>
+    
+    <!-- Text Colors -->
+    <color name="matt_black">#1F2937</color>
+    
+    <!-- UI Element Colors -->
+    <color name="colorDisabledGray">#F3F4F6</color>
+    <color name="colorGrayDivider">#E5E7EB</color>
+    
+    <!-- Success/Error States -->
+    <color name="success_green">#10B981</color>
+    <color name="error_red">#EF4444</color>
 </resources>

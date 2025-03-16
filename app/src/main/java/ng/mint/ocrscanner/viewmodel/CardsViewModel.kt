@@ -46,26 +46,50 @@ class CardsViewModel @Inject constructor(
     }
 
     fun processCardDetail(value: String) {
-
         viewModelScope.launch(appCoroutineDispatcher.io) {
-
-            val request = requestHandler.getCardDetail(value)
-            if (request.isSuccessful) {
-                when (val cardResponse = request.body()) {
-                    null -> updateData(CardResult.Failure)
+            try {
+                updateData(CardResult.Loading)
+                val request = requestHandler.getCardDetail(value)
+                
+                when {
+                    request.isSuccessful -> {
+                        when (val cardResponse = request.body()) {
+                            null -> updateData(CardResult.Error(
+                                CardResult.ErrorType.NOT_FOUND,
+                                "No card information found"
+                            ))
+                            else -> {
+                                updateData(CardResult.Success(cardResponse))
+                                insertSingleRecentCard(cardResponse.toRecentCard(value))
+                            }
+                        }
+                    }
+                    request.code() == 429 -> {
+                        updateData(CardResult.Error(
+                            CardResult.ErrorType.RATE_LIMIT,
+                            "Too many requests. Please try again later."
+                        ))
+                    }
+                    request.code() in 500..599 -> {
+                        updateData(CardResult.Error(
+                            CardResult.ErrorType.SERVER_ERROR,
+                            "Server error. Please try again later."
+                        ))
+                    }
                     else -> {
-                        updateData(CardResult.Success(cardResponse))
-                        insertSingleRecentCard(cardResponse.toRecentCard(value))
+                        updateData(CardResult.Error(
+                            CardResult.ErrorType.UNKNOWN,
+                            "Failed to get card information"
+                        ))
                     }
                 }
-
-            } else {
-                updateData(CardResult.Failure)
+            } catch (e: Exception) {
+                updateData(CardResult.Error(
+                    CardResult.ErrorType.NETWORK,
+                    "Network error. Please check your connection."
+                ))
             }
-
-
         }
-
     }
 
     fun insertOfflineCard(bin: String) {

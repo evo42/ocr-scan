@@ -2,8 +2,15 @@
 
 # A mini project to display information about a card, making API calls to https://binlist.io
 
+
+OpenAPI for BIN search: https://binsearch.io/openapi.json 
+
+
 ## Organization
 This project is maintained by [SEPAdigital](https://github.com/SEPAdigital).
+
+
+
 
 ## License
 This project is licensed under the MIT License.

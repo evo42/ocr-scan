@@ -11,7 +11,6 @@ plugins {
 kotlin {
     jvmToolchain(17)
 }
-
 android {
     compileSdk = Versions.compilesdk
     namespace = "ng.mint.ocrscanner"
@@ -137,6 +136,7 @@ dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     implementation("io.card:android-sdk:5.5.1")
     implementAll(Dependencies.implementations)
+    implementation("com.github.kirich1409:viewbindingpropertydelegate-noreflection:1.5.9")
     implementAll(SupportDependencies.supportImplementation)
     implementAll(AnnotationProcessors.RegularImplementation) // Add SQLite JDBC here
     

@@ -1,7 +1,10 @@
 <resources>
     <string name="app_name">OCR Scanner</string>
-    <string name="credit_card_information">Card\nInformation</string>
-    <string name="credit_card_number">Card Number</string>
+    <string name="credit_card_information">BIN\nInformation</string>
+    <string name="credit_card_number">BIN Number</string>
+    <string name="bin_helper_text">BIN: Bank Identification Number (first 8 digits)</string>
+    <string name="bin_input_hint">Enter first 8 digits (BIN)</string>
+    <string name="bin_accessibility_description">Bank Identification Number (BIN) input field, enter first 8 digits of your card</string>
     <string name="get_information">Get Information</string>
     <string name="about_card">About Card</string>
     <string name="card_scheme">Card Scheme</string>
@@ -14,10 +17,17 @@
     <string name="no_internet_connection">No Internet connection</string>
     <string name="currency">Currency</string>
     <string name="phone">Phone</string>
-    <string name="no_cards_added_yet">No Cards saved yet</string>
-    <string name="recently_viewed_cards">Recently\nViewed Cards</string>
+    <string name="no_cards_added_yet">No BINs saved yet</string>
+    <string name="recently_viewed_cards">Recently\nViewed BINs</string>
     <string name="no_internet_card_saved_for_future">There\'s currently no internet connection, we\'ll save this BIN (%s) and try it later for you.</string>
     <string name="offline_card_result_notification_text">We\'ve found a result for your offline capture. BIN(%s).</string>
     <string name="view_detail">View Detail</string>
     <string name="offline_scan_result">Offline Scan Result</string>
+    <string name="powered_by_bankpay">powered by BANKpay+</string>
+    <string name="rate_limit_error">Rate limit exceeded. Please try again later.</string>
+    <string name="server_error_try_again">Server error occurred. Please try again.</string>
+    <string name="unknown_error_try_again">An unknown error occurred. Please try again.</string>
+    <string name="bin_too_short">BIN must be at least 6 digits</string>
+    <string name="bin_invalid_characters">BIN must contain only numbers</string>
+    <string name="invalid_bin_format">Invalid BIN format. Please enter 6-8 digits.</string>
 </resources>

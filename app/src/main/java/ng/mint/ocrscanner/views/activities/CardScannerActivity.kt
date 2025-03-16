@@ -57,7 +57,13 @@ class CardScannerActivity : AppCompatActivity() {
                 val cardNumber = scanResult.formattedCardNumber
                 val isEuCard = isEuropeanCard(cardNumber)
                 
+                // Extract only the BIN (first 8 digits) for security
+                val cardBin = extractBIN(cardNumber)
+                val maskedCardNumber = maskCardNumber(cardNumber)
+                
+                // Log only the BIN and masked number for security
                 Log.d(TAG, "Card scan successful: ${scanResult.cardType} card detected, EU card: $isEuCard")
+                Log.d(TAG, "Card BIN: $cardBin, Masked Number: $maskedCardNumber")
                 
                 if (isEuCard) {
                     // Process EU-specific card format if needed
@@ -65,14 +71,9 @@ class CardScannerActivity : AppCompatActivity() {
                 }
                 
                 val resultIntent = Intent().apply {
-                    putExtra("card_number", cardNumber)
+                    putExtra("card_number", cardBin) // Only return the BIN (first 8 digits)
                     putExtra("is_eu_card", isEuCard)
                     putExtra("card_type", scanResult.cardType.toString())
-                    // Include expiry if available for EU compliance
-                    if (scanResult.expiryMonth != 0 && scanResult.expiryYear != 0) {
-                        putExtra("expiry_month", scanResult.expiryMonth)
-                        putExtra("expiry_year", scanResult.expiryYear)
-                    }
                 }
                 setResult(Activity.RESULT_OK, resultIntent)
             } else {
@@ -126,8 +127,6 @@ class CardScannerActivity : AppCompatActivity() {
         
         val intent = Intent(this, CardIOActivity::class.java).apply {
             // EU-optimized scanning configuration
-            putExtra(CardIOActivity.EXTRA_REQUIRE_EXPIRY, true)  // Required for EU cards' expiry validation
-            putExtra(CardIOActivity.EXTRA_SCAN_EXPIRY, true)     // Explicitly scan expiry (important for EU cards)
             putExtra(CardIOActivity.EXTRA_REQUIRE_CVV, false)    // Not required for initial scan
             putExtra(CardIOActivity.EXTRA_REQUIRE_POSTAL_CODE, false)
             putExtra(CardIOActivity.EXTRA_SUPPRESS_MANUAL_ENTRY, false)  // Allow manual entry as fallback
@@ -211,5 +210,46 @@ class CardScannerActivity : AppCompatActivity() {
         }
         
         return sum % 10 == 0
+    }
+    
+    /**
+     * Extracts the BIN (first 8 digits) from the card number
+     * For security purposes, we only want to process and store the BIN
+     */
+    private fun extractBIN(cardNumber: String): String {
+        // Clean the card number from spaces and other formatting
+        val cleanCardNumber = cardNumber.replace("\\s".toRegex(), "")
+        
+        // Return only the first 8 digits (BIN) or the whole number if less than 8 digits
+        return if (cleanCardNumber.length >= 8) {
+            cleanCardNumber.substring(0, 8)
+        } else {
+            cleanCardNumber
+        }
+    }
+    
+    /**
+     * Creates a masked version of the card number for display or logging
+     * Shows only the BIN (first 8 digits) and last 4 digits, with everything else masked
+     */
+    private fun maskCardNumber(cardNumber: String): String {
+        // Clean the card number from spaces and other formatting
+        val cleanCardNumber = cardNumber.replace("\\s".toRegex(), "")
+        
+        // If card number is too short, just return it
+        if (cleanCardNumber.length <= 8) return cleanCardNumber
+        
+        // Create a masked version showing only BIN and last 4 digits
+        val bin = cleanCardNumber.substring(0, 8)
+        val lastFour = if (cleanCardNumber.length >= 4) {
+            cleanCardNumber.substring(cleanCardNumber.length - 4)
+        } else {
+            ""
+        }
+        
+        // Create masked string of appropriate length between BIN and last four
+        val maskedSection = "*".repeat(cleanCardNumber.length - 8 - 4.coerceAtMost(cleanCardNumber.length - 8))
+        
+        return "$bin$maskedSection$lastFour"
     }
 }

@@ -7,6 +7,7 @@
     <data>
 
         <import type="android.view.View" />
+        <import type="ng.mint.ocrscanner.views.fragments.CardInformationFragment" />
 
         <variable
             name="bankData"
@@ -17,15 +18,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorActivityWhiteBackground"
-        android:overScrollMode="never">
+        android:overScrollMode="never"
+        android:theme="@style/AppTheme">
 
         <LinearLayout
             android:id="@+id/relativeLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="21dp"
-            android:layout_marginTop="40dp"
-            android:layout_marginEnd="21dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
             android:orientation="vertical">
 
             <RelativeLayout
@@ -52,7 +54,7 @@
                     android:fontFamily="@font/poppins_semi_bold"
                     android:text="@string/credit_card_information"
                     android:textColor="@color/matt_black"
-                    android:textSize="22sp" />
+                    android:textSize="20sp" />
 
                 <ImageView
                     android:id="@+id/recent_cards"
@@ -68,234 +70,341 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:fontFamily="@font/poppins_regular"
+                android:layout_marginTop="24dp"
+                android:fontFamily="@font/poppins_semi_bold"
                 android:text="@string/credit_card_number"
                 android:textColor="@color/matt_black"
-                android:textSize="13sp" />
+                android:textSize="14sp" />
 
             <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <androidx.appcompat.widget.AppCompatEditText
-                    android:id="@+id/panInputField"
-                    android:layout_width="match_parent"
-                    android:layout_height="55dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_toStartOf="@id/scan_button"
-                    android:background="@drawable/edit_text_bg"
-                    android:drawableStart="@drawable/ic_round_credit_card"
-                    android:drawablePadding="10dp"
-                    android:fontFamily="@font/poppins_regular"
-                    android:hint="@string/credit_card_number"
-                    android:imeOptions="actionNext"
-                    android:inputType="number"
-                    android:maxLength="8"
-                    android:paddingStart="20dp"
-                    android:paddingTop="10dp"
-                    android:paddingEnd="20dp"
-                    android:paddingBottom="10dp"
-                    android:singleLine="true"
-                    android:textColor="@color/matt_black"
-                    android:textSize="15sp" />
-
-                <ImageButton
-                    android:id="@+id/scan_button"
-                    android:layout_width="55dp"
-                    android:layout_height="55dp"
-                    android:layout_alignTop="@id/panInputField"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:background="@drawable/edit_text_bg"
-                    android:src="@drawable/ic_round_center_focus_weak" />
-
-            </RelativeLayout>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/nextButton"
-                style="@style/Widget.AppCompat.Button.Borderless"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/black_solid_cornered_button_bg"
-                android:fontFamily="@font/poppins_bold"
-                android:paddingStart="20dp"
-                android:paddingEnd="20dp"
-                android:text="@string/get_information"
-                android:textAllCaps="false"
-                android:textColor="@color/colorPrimary"
-                android:textSize="13sp" />
-
-
-            <RelativeLayout
-                android:id="@+id/card_information_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:visibility='@{bankData == null ? View.GONE:View.VISIBLE}'
-                tools:visibility="visible">
+                android:layout_marginTop="8dp">
 
-
-                <View
-                    android:id="@+id/linear_dash"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/panInputLayout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
-                    android:layout_height="5dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginTop="15dp"
-                    android:background="@drawable/black_dashed_lines"
-                    android:layerType="software" />
-
-                <TextView
-                    android:id="@+id/card_scheme_text"
-                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/linear_dash"
-                    android:layout_marginTop="30dp"
-                    android:fontFamily="@font/poppins_semi_bold"
-                    android:padding="5dp"
-                    android:text="@string/card_scheme"
-                    android:textColor="@color/matt_black"
-                    android:textSize="16sp" />
+                    android:layout_marginEnd="8dp"
+                    android:layout_toStartOf="@id/scan_button"
+                    app:startIconDrawable="@drawable/ic_round_credit_card"
+                    app:helperText="@string/bin_helper_text"
+                    app:helperTextEnabled="true"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="8">
 
-                <TextView
-                    android:id="@+id/card_scheme"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/card_scheme_text"
-                    android:padding="5dp"
-                    android:textColor="@color/matt_black"
-                    android:textSize="16sp"
-                    app:customText='@{bankData.scheme ?? ""}'
-                    tools:text="Master Card" />
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/panInputField"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_regular"
+                        android:hint="@string/bin_input_hint"
+                        android:imeOptions="actionNext"
+                        android:inputType="number"
+                        android:maxLength="8"
+                        android:singleLine="true"
+                        android:textColor="@color/matt_black"
+                        android:textSize="16sp"
+                        android:contentDescription="@string/bin_accessibility_description" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <TextView
-                    android:id="@+id/card_type_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/linear_dash"
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/scan_button"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:layout_alignTop="@id/panInputLayout"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginTop="30dp"
-                    android:fontFamily="@font/poppins_semi_bold"
-                    android:padding="5dp"
-                    android:text="@string/card_type"
-                    android:textColor="@color/matt_black"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/card_type"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/card_scheme_text"
-                    android:layout_alignParentEnd="true"
-                    android:padding="5dp"
-                    android:textColor="@color/matt_black"
-                    android:textSize="16sp"
-                    app:customText='@{bankData.type ?? ""}'
-                    tools:text="Debit" />
-
-                <TextView
-                    android:id="@+id/card_phone_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/card_scheme"
-                    android:layout_marginTop="20dp"
-                    android:fontFamily="@font/poppins_semi_bold"
-                    android:padding="5dp"
-                    android:text="@string/phone"
-                    android:textColor="@color/matt_black"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/phone"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/card_phone_text"
-                    android:padding="5dp"
-                    android:textColor="@color/matt_black"
-                    android:textSize="16sp"
-                    app:customText='@{bankData.bank.phone ?? ""}'
-                    tools:text="+4589893300" />
-
-                <TextView
-                    android:id="@+id/card_country_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/card_type"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginTop="20dp"
-                    android:fontFamily="@font/poppins_semi_bold"
-                    android:padding="5dp"
-                    android:text="@string/country"
-                    android:textColor="@color/matt_black"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/card_country"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/card_phone_text"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginStart="10dp"
-                    android:layout_toEndOf="@id/phone"
-                    android:gravity="end"
-                    android:lines="2"
-                    android:padding="5dp"
-                    android:textColor="@color/matt_black"
-                    android:textSize="16sp"
-                    app:customText='@{(bankData.country.emoji ?? "") +" "+ (bankData.country.name ?? "")}'
-                    tools:text="🇳🇬 Nigeria" />
-
-                <TextView
-                    android:id="@+id/card_bank_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignTop="@id/card_currency_text"
-                    android:fontFamily="@font/poppins_semi_bold"
-                    android:padding="5dp"
-                    android:text="@string/card_bank"
-                    android:textColor="@color/matt_black"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/card_bank"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/card_bank_text"
-                    android:padding="5dp"
-                    android:textColor="@color/matt_black"
-                    android:textSize="16sp"
-                    app:customText='@{bankData.bank.name ?? ""}'
-                    tools:text="Guarantee Trust Bank" />
-
-                <TextView
-                    android:id="@+id/card_currency_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/card_country"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginTop="20dp"
-                    android:fontFamily="@font/poppins_semi_bold"
-                    android:padding="5dp"
-                    android:text="@string/currency"
-                    android:textColor="@color/matt_black"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/card_currency"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/card_currency_text"
-                    android:layout_alignParentEnd="true"
-                    android:padding="5dp"
-                    android:textColor="@color/matt_black"
-                    android:textSize="16sp"
-                    app:customText='@{bankData.country.currency ?? ""}'
-                    tools:text="NGN" />
+                    android:insetLeft="0dp"
+                    android:insetTop="0dp"
+                    android:insetRight="0dp"
+                    android:insetBottom="0dp"
+                    app:cornerRadius="12dp"
+                    app:icon="@drawable/ic_round_center_focus_weak"
+                    app:iconGravity="textStart"
+                    app:iconPadding="0dp"
+                    app:iconSize="24dp"
+                    app:iconTint="@color/bankpay_primary" />
 
             </RelativeLayout>
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/nextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/poppins_semi_bold"
+                android:paddingStart="24dp"
+                android:paddingTop="12dp"
+                android:paddingEnd="24dp"
+                android:paddingBottom="12dp"
+                android:text="@string/get_information"
+                android:textAllCaps="false"
+                android:textSize="14sp"
+                app:cornerRadius="12dp" />
+
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:visibility='@{bankData == null ? View.GONE:View.VISIBLE}'
+                app:cardCornerRadius="16dp"
+                app:cardElevation="4dp"
+                app:strokeColor="@color/colorGrayDivider"
+                app:strokeWidth="1dp"
+                tools:visibility="visible">
+
+                <LinearLayout
+                    android:id="@+id/card_information_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <!-- BIN Number Header Section -->
+                    <TextView
+                        android:id="@+id/bin_header"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/credit_card_number"
+                        android:gravity="center"
+                        android:textColor="@color/bankpay_primary"
+                        android:textSize="18sp"
+                        android:fontFamily="@font/poppins_semi_bold" />
+
+                    <TextView
+                        android:id="@+id/bin_number"
+                        android:layout_width="match_parent" 
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textSize="24sp"
+                        android:layout_marginBottom="16dp"
+                        android:textColor="@color/matt_black"
+                        android:fontFamily="@font/poppins_semi_bold"
+                        app:customText='@{panInputField.text.toString()}'
+                        tools:text="45717360" />
+
+                    <View
+                        android:id="@+id/linear_dash"
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="16dp"
+                        android:background="@drawable/black_dashed_lines"
+                        android:layerType="software" />
+
+                    <!-- BIN Information Section -->
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/about_card"
+                        android:textSize="16sp"
+                        android:textColor="@color/bankpay_secondary"
+                        android:fontFamily="@font/poppins_semi_bold"
+                        android:layout_marginBottom="8dp"/>
+
+                    <!-- Card Details Section -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="8dp">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/card_scheme_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins_semi_bold"
+                                android:padding="5dp"
+                                android:text="@string/card_scheme"
+                                android:textColor="@color/matt_black"
+                                android:textSize="16sp" />
+
+                            <TextView
+                                android:id="@+id/card_scheme"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="5dp"
+                                android:textColor="@color/matt_black"
+                                android:textSize="16sp"
+                                app:customText='@{bankData.scheme ?? ""}'
+                                tools:text="Master Card" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/card_type_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins_semi_bold"
+                                android:padding="5dp"
+                                android:text="@string/card_type"
+                                android:textColor="@color/matt_black"
+                                android:textSize="16sp" />
+
+                            <TextView
+                                android:id="@+id/card_type"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="5dp"
+                                android:textColor="@color/matt_black"
+                                android:textSize="16sp"
+                                app:customText='@{bankData.type ?? ""}'
+                                tools:text="Debit" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <!-- Bank Information Section -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="16dp">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/bank_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins_semi_bold"
+                                android:padding="5dp"
+                                android:text="@string/card_bank"
+                                android:textColor="@color/matt_black"
+                                android:textSize="16sp" />
+
+                            <TextView
+                                android:id="@+id/bank_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="5dp"
+                                android:textColor="@color/matt_black"
+                                android:textSize="16sp"
+                                app:customText='@{bankData.bank.name ?? ""}'
+                                tools:text="JPMORGAN CHASE BANK" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/country_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins_semi_bold"
+                                android:padding="5dp"
+                                android:text="@string/country"
+                                android:textColor="@color/matt_black"
+                                android:textSize="16sp" />
+
+                            <TextView
+                                android:id="@+id/country"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="5dp"
+                                android:textColor="@color/matt_black"
+                                android:textSize="16sp"
+                                app:customText='@{bankData.country.name ?? ""}'
+                                tools:text="United States" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <!-- Currency and Phone Section -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="16dp">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/currency_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins_semi_bold"
+                                android:padding="5dp"
+                                android:text="@string/currency"
+                                android:textColor="@color/matt_black"
+                                android:textSize="16sp" />
+
+                            <TextView
+                                android:id="@+id/currency"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="5dp"
+                                android:textColor="@color/matt_black"
+                                android:textSize="16sp"
+                                app:customText='@{bankData.country.currency ?? ""}'
+                                tools:text="USD" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:visibility='@{bankData.bank.phone == null ? View.GONE : View.VISIBLE}'>
+
+                            <TextView
+                                android:id="@+id/phone_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins_semi_bold"
+                                android:padding="5dp"
+                                android:text="@string/phone"
+                                android:textColor="@color/matt_black"
+                                android:textSize="16sp" />
+
+                            <TextView
+                                android:id="@+id/phone"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="5dp"
+                                android:textColor="@color/matt_black"
+                                android:textSize="16sp"
+                                app:customText='@{bankData.bank.phone ?? ""}'
+                                tools:text="+1-234-567-8900" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:layout_marginBottom="20dp"
+                android:gravity="center"
+                android:textSize="14sp"
+                android:textColor="@color/bankpay_accent"
+                android:fontFamily="@font/poppins_semi_bold"
+                android:textAppearance="?attr/textAppearanceCaption"
+                android:text="@string/powered_by_bankpay" />
 
         </LinearLayout>
 
