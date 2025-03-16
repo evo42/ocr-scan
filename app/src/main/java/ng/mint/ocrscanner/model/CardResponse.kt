@@ -5,59 +5,45 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class CardResponse(
-    @Json(name = "success")
-    var success: Boolean? = null,
+    @Json(name = "bin")
+    var bin: String? = null,
 
-    @Json(name = "scheme")
+    @Json(name = "vendor")
     var scheme: String? = null,
 
     @Json(name = "type")
     var type: String? = null,
 
-    @Json(name = "reason")
-    var reason: String? = null,
-
-    @Json(name = "category")
+    @Json(name = "level")
     var category: String? = null,
 
-    @Json(name = "number")
-    var number: Number? = null,
+    @Json(name = "bank")
+    var bank: Bank? = null,
 
     @Json(name = "country")
     var country: Country? = null,
 
-    @Json(name = "bank")
-    var bank: Bank? = null
+    @Json(name = "success")
+    var success: Boolean = true,
+
+    @Json(name = "error")
+    var reason: String? = null
 ) {
 
     @JsonClass(generateAdapter = true)
-    data class Number(
-        @Json(name = "iin")
-        var lin: String? = null,
-
-        @Json(name = "length")
-        var length: Int? = null,
-
-        @Json(name = "luhn")
-        var luhn: Boolean? = null
-    )
-
-    @JsonClass(generateAdapter = true)
     data class Country(
-        @Json(name = "alpha2")
-        var alpha2: String? = null,
-
-        @Json(name = "alpha3")
-        var alpha3: String? = null,
-
         @Json(name = "name")
         var name: String? = null,
 
-        @Json(name = "emoji")
-        var emoji: String? = null,
+        @Json(name = "code")
+        var alpha2: String? = null,
 
         @Json(name = "currency")
-        var currency: String? = null
+        var currency: String? = null,
+
+        // We'll keep the emoji field even though it's not in the API response
+        // to maintain compatibility with the existing UI
+        var emoji: String? = null
     )
 
     @JsonClass(generateAdapter = true)
@@ -65,10 +51,10 @@ data class CardResponse(
         @Json(name = "name")
         var name: String? = null,
 
-        @Json(name = "phone")
-        var phone: String? = null,
+        @Json(name = "website")
+        var url: String? = null,
 
-        @Json(name = "url")
-        var url: String? = null
+        @Json(name = "phone")
+        var phone: String? = null
     )
 }
